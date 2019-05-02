@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heartspark-core
+  labels:
+    name: heartspark-core
+    service: enquiry-engine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: heartspark-core
+  template:
+    metadata:
+      labels:
+        name: heartspark-core
+    spec:
+      imagePullSecrets:
+        - name: "docker-reg-cred"
+      containers:
+        - name: heartspark-core
+          image: heartspark/heartspark-core:latest
+          imagePullPolicy: Always
+          securityContext:
+            runAsUser: 1000
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP

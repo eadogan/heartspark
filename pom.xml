@@ -16,14 +16,23 @@
 
     <modules>
         <module>heartspark-core</module>
+        <module>heartspark-deployment</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        
+        <java.version>11</java.version>
+
+        <!-- Application versions -->
         <spring-boot-dependencies.version>2.1.4.RELEASE</spring-boot-dependencies.version>
         <vaadin.version>13.0.5</vaadin.version>
+
+        <!-- Plugin versions -->
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
+        <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     </properties>
 
     <repositories>
@@ -61,28 +70,33 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>${maven-jar-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-                        <release>11</release>
+                        <release>${java.version}</release>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${docker-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot-dependencies.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot-dependencies.version}</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
 </project>

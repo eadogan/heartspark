@@ -13,6 +13,10 @@
     <artifactId>heartspark-core</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <external.port>8080</external.port>
+    </properties>
+
     <dependencies>
         <!-- Spring Boot -->
         <dependency>
@@ -38,6 +42,7 @@
     </dependencies>
 
     <build>
+        <finalName>heartspark-core</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -46,6 +51,85 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>heartspark/heartspark-core</name>
+                            <alias>heartspark-core</alias>
+                            <build>
+                                <from>openjdk:11-slim</from>
+                                <maintainer>simonkent@sky.com</maintainer>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${project.parent.version}</tag>
+                                </tags>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                                <volumes>
+                                    <volume>/tmp</volume>
+                                </volumes>
+                                <entryPoint>
+                                    <exec>
+                                        <arg>java</arg>
+                                        <arg>-jar</arg>
+                                        <arg>/app/heartspark-core.jar</arg>
+                                    </exec>
+                                </entryPoint>
+                                <assembly>
+                                    <mode>dir</mode>
+                                    <targetDir>/app</targetDir>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                            </build>
+                            <run>
+                                <labels>
+                                    <version>${project.parent.version}</version>
+                                </labels>
+                                <ports>
+                                    <port>${external.port}:8080</port>
+                                </ports>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
             </plugin>
         </plugins>
     </build>
