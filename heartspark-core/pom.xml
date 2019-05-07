@@ -39,12 +39,6 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
         </dependency>
-
-        <!-- Vaadin Addons -->
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>quickpopup-component-for-vaadin-flow</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
