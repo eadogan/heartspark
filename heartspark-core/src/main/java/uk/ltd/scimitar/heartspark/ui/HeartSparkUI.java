@@ -16,6 +16,7 @@ import uk.ltd.scimitar.heartspark.ui.component.element.CircleButton;
 import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationContentRoot;
 import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationHeader;
 import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationMessageStream;
+import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationPopupSidebar;
 
 @SpringComponent
 @UIScope

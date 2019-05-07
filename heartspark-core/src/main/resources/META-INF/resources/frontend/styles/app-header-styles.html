@@ -1,11 +1,18 @@
 <custom-style>
     <style>
         #header {
-            background-color: lightsteelblue;
+            /*background-color: lightsteelblue;*/
+            display: flex;
             height: 60px;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .hs-menu-button {
+            align-self: flex-start;
         }
         @media screen and (min-width: 600px) {
-            #sidebar {
+            .hs-menu-button {
+                display: none;
             }
         }
     </style>

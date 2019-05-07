@@ -1,26 +1,26 @@
 <custom-style>
-    <dom-module id="message-stream-styles" theme-for="vaadin-dialog-overlay">
+    <dom-module id="hs-dialog-styles" theme-for="vaadin-dialog-overlay">
         <template>
             <style>
-                :host {
+                :host([theme~="message-stream"]) {
                     top: 0;
                     left: 0;
                     right: 0;
                     bottom: 0;
                 }
-                [part="overlay"] {
+                :host([theme~="message-stream"]) [part="overlay"] {
                     display: block;
                     width: 100vw;
                     height: 100vh;
                 }
                 @media screen and (min-width: 600px) {
-                    :host {
+                    :host([theme~="message-stream"]) {
                         top: var(--lumo-space-s);
                         left: var(--lumo-space-s);
                         right: var(--lumo-space-s);
                         bottom: var(--lumo-space-s);
                     }
-                    [part="overlay"] {
+                    :host([theme~="message-stream"]) [part="overlay"] {
                         position: absolute;
                         display: block;
                         min-width: 38vw;
@@ -29,6 +29,26 @@
                         max-height: 80vh;
                         right: 25px;
                         bottom: 95px;
+                    }
+                }
+
+                :host([theme~="popup"]) {
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                }
+                :host([theme~="popup"]) [part="overlay"] {
+                    position: absolute;
+                    display: block;
+                    width: 60vw;
+                    height: 100vh;
+                    top: 0;
+                    left: 0;
+                }
+                @media screen and (min-width: 600px) {
+                    :host([theme~="popup"]) [part="overlay"] {
+                        display: none;
                     }
                 }
             </style>
