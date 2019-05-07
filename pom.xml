@@ -28,6 +28,8 @@
         <spring-boot-dependencies.version>2.1.4.RELEASE</spring-boot-dependencies.version>
         <vaadin.version>13.0.5</vaadin.version>
 
+        <!-- Lib versions -->
+
         <!-- Plugin versions -->
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -42,6 +44,10 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
     </repositories>
 
