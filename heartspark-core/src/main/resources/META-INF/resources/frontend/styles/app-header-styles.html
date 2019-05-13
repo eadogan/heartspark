@@ -2,17 +2,33 @@
     <style>
         #header {
             /*background-color: lightsteelblue;*/
-            display: flex;
             height: 60px;
-            justify-content: center;
-            flex-direction: column;
         }
         .hs-menu-button {
-            align-self: flex-start;
+            position: absolute;
+            left: 6px;
+            top: 8px;
+        }
+        .hs-logo-full {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
+        .hs-logo-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         @media screen and (min-width: 600px) {
             .hs-menu-button {
                 display: none;
+            }
+            .hs-logo-icon {
+                display: none;
+            }
+            .hs-logo-full {
+                display: block;
             }
         }
     </style>

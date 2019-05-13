@@ -8,19 +8,18 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import uk.ltd.scimitar.heartspark.ui.HeartSparkUI;
+import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationTemplate;
 
 @SpringComponent
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-@Route(value = "", layout = HeartSparkUI.class)
+@Route(value = "", layout = ApplicationTemplate.class)
 @HtmlImport("styles/view-home-styles.html")
 @PageTitle("HeartSpark.singles")
-public class HomeView extends Div {
+public class ProfilesView extends Div {
 
-    public HomeView() {
+    public ProfilesView() {
         setId("home-view");
         add(new Label("Home View"));
     }
-
 
 }

@@ -1,4 +1,4 @@
-package uk.ltd.scimitar.heartspark.ui;
+package uk.ltd.scimitar.heartspark.ui.component.template;
 
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.dependency.HtmlImport;
@@ -13,10 +13,6 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.ltd.scimitar.heartspark.ui.component.element.CircleButton;
-import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationContentRoot;
-import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationHeader;
-import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationMessageStream;
-import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationPopupSidebar;
 
 @SpringComponent
 @UIScope
@@ -25,14 +21,14 @@ import uk.ltd.scimitar.heartspark.ui.component.template.ApplicationPopupSidebar;
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @Inline(value = "favicon.meta", position = Inline.Position.APPEND)
-public class HeartSparkUI extends Div implements RouterLayout {
+public class ApplicationTemplate extends Div implements RouterLayout {
 
     private final ApplicationContentRoot applicationContentRoot;
 
     @Autowired
-    public HeartSparkUI(final ApplicationHeader header,
-                        final ApplicationContentRoot contentRoot,
-                        final ApplicationMessageStream messageStream) {
+    public ApplicationTemplate(final ApplicationHeader header,
+                               final ApplicationContentRoot contentRoot,
+                               final ApplicationMessageStream messageStream) {
 
         this.applicationContentRoot = contentRoot;
 
