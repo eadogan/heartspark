@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 public class SecurityUtil {
 
-    public static boolean isFrameworkInternalRequest(HttpServletRequest request) {
+    public static boolean isFrameworkInternalRequest(final HttpServletRequest request) {
         final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
         return parameterValue != null
                 && Stream.of(ServletHelper.RequestType.values()).anyMatch(r -> r.getIdentifier().equals(parameterValue));
@@ -23,10 +23,10 @@ public class SecurityUtil {
 
     public static boolean authenticate(final AuthenticationManager authenticationManager,
                                        final AbstractLogin.LoginEvent event) {
-        UsernamePasswordAuthenticationToken authReq
+        final UsernamePasswordAuthenticationToken authReq
                 = new UsernamePasswordAuthenticationToken(event.getUsername(), event.getPassword());
         try {
-            Authentication auth = authenticationManager.authenticate(authReq);
+            final Authentication auth = authenticationManager.authenticate(authReq);
             SecurityContext sc = SecurityContextHolder.getContext();
             sc.setAuthentication(auth);
         } catch (BadCredentialsException e) {

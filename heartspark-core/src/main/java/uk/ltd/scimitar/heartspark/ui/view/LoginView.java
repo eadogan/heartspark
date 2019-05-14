@@ -1,7 +1,7 @@
 package uk.ltd.scimitar.heartspark.ui.view;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -17,21 +17,23 @@ import uk.ltd.scimitar.heartspark.ui.security.SecurityUtil;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @PageTitle("HeartSpark.singles")
 @Route(value = "login", layout = WebsiteTemplate.class)
-public class LoginView extends Div {
+@HtmlImport("styles/view-login-styles.html")
+public class LoginView extends LoginForm {
 
     @Autowired
     public LoginView(final AuthenticationManager authenticationManager) {
-        final LoginForm loginForm = new LoginForm();
-        loginForm.addLoginListener(event -> {
+
+        setId("login-view");
+
+        this.addLoginListener(event -> {
             boolean isAuthenticated = SecurityUtil.authenticate(authenticationManager, event);
             if (isAuthenticated) {
                 UI.getCurrent().navigate(ProfilesView.class);
             } else {
-                loginForm.setError(true);
+                this.setError(true);
             }
         });
 
-        add(loginForm);
     }
 
 }
