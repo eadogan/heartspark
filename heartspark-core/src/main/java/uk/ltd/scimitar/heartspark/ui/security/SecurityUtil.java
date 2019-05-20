@@ -22,18 +22,29 @@ public class SecurityUtil {
     }
 
     public static boolean authenticate(final AuthenticationManager authenticationManager,
-                                       final AbstractLogin.LoginEvent event) {
+                                       final String emailAddress,
+                                       final String password) {
         final UsernamePasswordAuthenticationToken authReq
-                = new UsernamePasswordAuthenticationToken(event.getUsername(), event.getPassword());
+                = new UsernamePasswordAuthenticationToken(emailAddress, password);
         try {
             final Authentication auth = authenticationManager.authenticate(authReq);
-            SecurityContext sc = SecurityContextHolder.getContext();
+            final SecurityContext sc = SecurityContextHolder.getContext();
             sc.setAuthentication(auth);
         } catch (BadCredentialsException e) {
             return false;
         }
 
         return true;
+    }
+
+    public static boolean hasRole(final String role) {
+        final SecurityContext sc = SecurityContextHolder.getContext();
+        return sc.getAuthentication().getAuthorities().stream()
+                .anyMatch(ga -> ga.getAuthority().equals(role));
+    }
+
+    public static boolean isAuthenticated() {
+        return hasRole("USER");
     }
 
 }

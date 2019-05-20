@@ -8,17 +8,21 @@ import java.util.Set;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "account_role_map",
             joinColumns = @JoinColumn(name = "account_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+            inverseJoinColumns = @JoinColumn(name = "role_name"))
     private Set<Role> roles;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "email_address", referencedColumnName = "email_address")
     private Credential credential;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
 
     public Account() {
         super();
@@ -28,6 +32,8 @@ public class Account {
         this.id = builder.id;
         this.roles = builder.roles;
         this.credential = builder.credential;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
     }
 
     public Credential getCredential() {
@@ -47,9 +53,21 @@ public class Account {
         private long id;
         private Set<Role> roles;
         private Credential credential;
+        private String firstName;
+        private String lastName;
 
         public Builder withId(long id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder withFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder withLastName(String lastName) {
+            this.lastName = lastName;
             return this;
         }
 

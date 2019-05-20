@@ -1,48 +1,37 @@
 package uk.ltd.scimitar.heartspark.account.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import uk.ltd.scimitar.heartspark.account.entity.Account;
-import uk.ltd.scimitar.heartspark.account.entity.Role;
 import uk.ltd.scimitar.heartspark.account.repository.AccountRepository;
 
+import javax.transaction.Transactional;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
-public class AccountService implements UserDetailsService, Serializable {
+public class AccountService implements Serializable {
 
     private AccountRepository accountRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public AccountService(final AccountRepository accountRepository) {
+    public AccountService(final AccountRepository accountRepository,
+                          final BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.accountRepository = accountRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(final String emailAddress) throws UsernameNotFoundException {
-        return accountRepository.findByEmailAddress(emailAddress)
-                .map(accountUserMapper)
-                .orElseThrow(() -> new UsernameNotFoundException(emailAddress));
+    @Transactional
+    public Optional<Account> findByEmailAddress(final String emailAddress) {
+        return accountRepository.findByEmailAddress(emailAddress);
     }
 
-    private Function<Account, User> accountUserMapper = (account) -> new User(
-                account.getCredential().getEmailAddress(),
-                account.getCredential().getPassword(),
-                getAuthorities(account.getRoles())
-            );
-
-    private Set<GrantedAuthority> getAuthorities(final Set<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toSet());
+    @Transactional
+    public void create(final Account account) {
+        account.getCredential().setPassword(bCryptPasswordEncoder.encode(account.getCredential().getPassword()));
+        accountRepository.save(account);
     }
 
 }

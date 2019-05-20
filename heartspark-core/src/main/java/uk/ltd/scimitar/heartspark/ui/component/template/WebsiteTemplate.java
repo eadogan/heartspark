@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SpringComponent
 @UIScope
 @HtmlImport("frontend://themes/heartspark-theme.html")
-@HtmlImport("styles/app-root-styles.html")
+@HtmlImport("styles/app-website-styles.html")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @Inline(value = "favicon.meta", position = Inline.Position.APPEND)

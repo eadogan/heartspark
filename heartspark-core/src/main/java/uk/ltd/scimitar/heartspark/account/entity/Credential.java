@@ -33,6 +33,10 @@ public class Credential {
         return password;
     }
 
+    public void setPassword(final String password) {
+        this.password = password;
+    }
+
     public static class Builder {
 
         private String emailAddress;
