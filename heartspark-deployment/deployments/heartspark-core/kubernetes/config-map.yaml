@@ -1,0 +1,9 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: heartspark-core
+data:
+  application.yaml: |-
+    spring:
+      datasource:
+        url: jdbc:mysql://heartspark-db:3306/heartspark

@@ -30,7 +30,8 @@ class AccountRepositoryTest {
 
         account.ifPresent(acc -> {
             assertEquals("bruce.lee@jeetkune.do", acc.getCredential().getEmailAddress());
-            assertTrue(acc.hasRole("USER"));
+            assertTrue(acc.getRoles().stream()
+                    .anyMatch(role -> role.getName().equals("USER")));
         });
     }
 

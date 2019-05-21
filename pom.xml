@@ -27,6 +27,7 @@
         <!-- Application versions -->
         <spring-boot-dependencies.version>2.1.4.RELEASE</spring-boot-dependencies.version>
         <vaadin.version>13.0.5</vaadin.version>
+        <spring-cloud-starter-kubernetes.version>1.0.1.RELEASE</spring-cloud-starter-kubernetes.version>
 
         <!-- Lib versions -->
         <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
@@ -34,6 +35,7 @@
         <junit.jupiter.version>5.5.0-M1</junit.jupiter.version>
         <flyway-core.version>5.2.4</flyway-core.version>
         <mockito-core.version>2.27.0</mockito-core.version>
+        <lombok.version>1.18.8</lombok.version>
 
         <!-- Plugin versions -->
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
@@ -75,6 +77,18 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Spring Cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-kubernetes</artifactId>
+                <version>${spring-cloud-starter-kubernetes.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-kubernetes-config</artifactId>
+                <version>${spring-cloud-starter-kubernetes.version}</version>
+            </dependency>
+
             <!-- Database -->
             <dependency>
                 <groupId>mysql</groupId>
@@ -91,6 +105,15 @@
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway-core.version}</version>
             </dependency>
+
+            <!-- Utils -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
 
             <!-- Testing -->
             <dependency>

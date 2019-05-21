@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: heartspark-db
+  name: heartspark-db
+spec:
+  ports:
+    - name: db
+      port: 3306
+      targetPort: 3306
+  selector:
+    name: heartspark-db

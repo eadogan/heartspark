@@ -1,4 +1,6 @@
 spring:
+    application:
+        name: heartspark-core
     datasource:
         url: jdbc:mysql://localhost:3306/heartspark
         password: password
@@ -9,3 +11,11 @@ spring:
         hibernate:
             ddl-auto: none
         open-in-view: false
+    cloud:
+        kubernetes:
+            config:
+                name: heartspark-config
+                namespace: default
+                sources:
+                    - namespace: default
+                      name: heartspark-config

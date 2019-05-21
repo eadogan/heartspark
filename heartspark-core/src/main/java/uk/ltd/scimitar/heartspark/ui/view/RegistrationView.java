@@ -185,12 +185,14 @@ public class RegistrationView extends Div {
             final String generatedPassword = "password";
             bean.setPassword(generatedPassword);
 
-            accountService.create(new Account.Builder()
-                    .withFirstName(bean.getGivenName())
-                    .withLastName(bean.getFamilyName())
-                    .withRoles(Set.of(new Role.Builder("USER")
+            accountService.create(Account.builder()
+                    .firstName(bean.getGivenName())
+                    .roles(Set.of(Role.builder()
+                            .name("USER")
                             .build()))
-                    .withCredential(new Credential.Builder(bean.getEmailAddress(), bean.getPassword())
+                    .credential(Credential.builder()
+                            .emailAddress(bean.getEmailAddress())
+                            .password(bean.getPassword())
                             .build())
                     .build());
         }

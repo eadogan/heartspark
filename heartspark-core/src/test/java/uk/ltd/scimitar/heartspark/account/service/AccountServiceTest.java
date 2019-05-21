@@ -45,10 +45,15 @@ class AccountServiceTest {
     }
 
     private Account validAccount() {
-        return new Account.Builder()
-                .withId(1L)
-                .withCredential(new Credential.Builder("chuck.norris@karate.com", "password").build())
-                .withRoles(Set.of(new Role.Builder("USER").build()))
+        return Account.builder()
+                .id(1L)
+                .credential(Credential.builder()
+                        .emailAddress("chuck.norris@karate.com")
+                        .password("password")
+                        .build())
+                .roles(Set.of(Role.builder()
+                        .name("USER")
+                        .build()))
                 .build();
     }
 

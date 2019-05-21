@@ -1,6 +1,5 @@
 package uk.ltd.scimitar.heartspark.ui.security;
 
-import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.server.ServletHelper;
 import com.vaadin.flow.shared.ApplicationConstants;
 import org.springframework.security.authentication.AuthenticationManager;
