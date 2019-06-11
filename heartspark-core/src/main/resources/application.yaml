@@ -19,3 +19,15 @@ spring:
                 sources:
                     - namespace: default
                       name: heartspark-config
+    mail:
+        host: smtp.zoho.com
+        port: 587
+        username: info@heartspark.singles
+        password: ;24^T497%0CJ>]Fh7|06iz
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+                        required: true

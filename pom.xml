@@ -25,7 +25,7 @@
         <java.version>11</java.version>
 
         <!-- Application versions -->
-        <spring-boot-dependencies.version>2.1.4.RELEASE</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.1.5.RELEASE</spring-boot-dependencies.version>
         <vaadin.version>13.0.5</vaadin.version>
         <spring-cloud-starter-kubernetes.version>1.0.1.RELEASE</spring-cloud-starter-kubernetes.version>
 
@@ -36,6 +36,7 @@
         <flyway-core.version>5.2.4</flyway-core.version>
         <mockito-core.version>2.27.0</mockito-core.version>
         <lombok.version>1.18.8</lombok.version>
+        <pebble-spring-boot-2-starter.version>3.0.10</pebble-spring-boot-2-starter.version>
 
         <!-- Plugin versions -->
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
@@ -104,6 +105,13 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway-core.version}</version>
+            </dependency>
+
+            <!-- Templates -->
+            <dependency>
+                <groupId>io.pebbletemplates</groupId>
+                <artifactId>pebble-spring-boot-2-starter</artifactId>
+                <version>${pebble-spring-boot-2-starter.version}</version>
             </dependency>
 
             <!-- Utils -->

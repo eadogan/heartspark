@@ -1,0 +1,12 @@
+Hi {{ name }},
+
+Thank you for registering with HeartSpark. You have registered with the email address {{ emailAddress }} which will be the one you use to sign in.
+
+So we can get you set up, you need to click this link which will allow you to create your password.
+
+The link will expire in 3 hours. If the link has expired, go here and enter your email address and you will be sent a new link.
+
+Thank you again for registering, we hope you'll enjoy your time here and find the date you always dreamed you'd go on.
+
+Regards,
+The HeartSpark Team

@@ -4,11 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import uk.ltd.scimitar.heartspark.account.entity.Account;
+import uk.ltd.scimitar.heartspark.account.entity.Credential;
+import uk.ltd.scimitar.heartspark.account.entity.Role;
 import uk.ltd.scimitar.heartspark.account.repository.AccountRepository;
+import uk.ltd.scimitar.heartspark.ui.domain.Registration;
 
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AccountService implements Serializable {
@@ -29,9 +33,26 @@ public class AccountService implements Serializable {
     }
 
     @Transactional
-    public void create(final Account account) {
+    public Optional<Account> create(final Registration registration) {
+        final String generatedPassword = "password";
+        registration.setPassword(generatedPassword);
+
+        return create(Account.builder()
+                .firstName(registration.getGivenName())
+                .roles(Set.of(Role.builder()
+                        .name("USER")
+                        .build()))
+                .credential(Credential.builder()
+                        .emailAddress(registration.getEmailAddress())
+                        .password(registration.getPassword())
+                        .build())
+                .build());
+    }
+
+    @Transactional
+    public Optional<Account> create(final Account account) {
         account.getCredential().setPassword(bCryptPasswordEncoder.encode(account.getCredential().getPassword()));
-        accountRepository.save(account);
+        return Optional.of(accountRepository.save(account));
     }
 
 }

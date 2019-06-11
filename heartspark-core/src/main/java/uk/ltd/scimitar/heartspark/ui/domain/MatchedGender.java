@@ -1,6 +1,8 @@
 package uk.ltd.scimitar.heartspark.ui.domain;
 
-public enum MatchedGender {
+import java.io.Serializable;
+
+public enum MatchedGender implements Serializable {
 
     MALE("Man", "Men"), FEMALE("Woman", "Women"), EITHER("Man or Woman", "Men or Women");
 

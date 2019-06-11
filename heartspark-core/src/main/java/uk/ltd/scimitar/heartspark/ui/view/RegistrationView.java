@@ -1,5 +1,6 @@
 package uk.ltd.scimitar.heartspark.ui.view;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -20,9 +21,6 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import uk.ltd.scimitar.heartspark.account.entity.Account;
-import uk.ltd.scimitar.heartspark.account.entity.Credential;
-import uk.ltd.scimitar.heartspark.account.entity.Role;
 import uk.ltd.scimitar.heartspark.account.service.AccountService;
 import uk.ltd.scimitar.heartspark.ui.component.template.WebsiteTemplate;
 import uk.ltd.scimitar.heartspark.ui.domain.Gender;
@@ -32,7 +30,6 @@ import uk.ltd.scimitar.heartspark.ui.domain.Registration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
-import java.util.Set;
 
 import static java.util.regex.Pattern.matches;
 
@@ -171,7 +168,11 @@ public class RegistrationView extends Div {
         registerButton.getElement().setAttribute("colspan", "2");
         registerButton.addClickListener(e -> onRegisterClick(registrationBinder, registration));
 
-        registrationLayout.add(registerButton);
+        final Button signInButton = new Button("Already registered? Sign In");
+        signInButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE, ButtonVariant.LUMO_LARGE);
+        signInButton.addClickListener(e -> UI.getCurrent().navigate(SignInView.class));
+
+        registrationLayout.add(registerButton, signInButton);
 
         add(welcomeTextLayout, registrationLayout);
 
@@ -182,19 +183,8 @@ public class RegistrationView extends Div {
                                  final Registration bean) {
         boolean valid = registrationBinder.writeBeanIfValid(bean);
         if (valid) {
-            final String generatedPassword = "password";
-            bean.setPassword(generatedPassword);
-
-            accountService.create(Account.builder()
-                    .firstName(bean.getGivenName())
-                    .roles(Set.of(Role.builder()
-                            .name("USER")
-                            .build()))
-                    .credential(Credential.builder()
-                            .emailAddress(bean.getEmailAddress())
-                            .password(bean.getPassword())
-                            .build())
-                    .build());
+            accountService.create(bean)
+                    .ifPresent(account -> UI.getCurrent().navigate(RegistrationNextStepsView.class));
         }
     }
 

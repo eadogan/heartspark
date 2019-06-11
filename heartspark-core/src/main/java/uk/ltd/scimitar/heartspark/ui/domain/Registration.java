@@ -2,11 +2,12 @@ package uk.ltd.scimitar.heartspark.ui.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Locale;
 
 @Data
-public class Registration {
+public class Registration implements Serializable {
 
     private String givenName;
     private String emailAddress;

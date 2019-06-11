@@ -1,4 +1,34 @@
 <custom-style>
     <style>
+        .error-50pct {
+            background-color: var(--lumo-error-color-50pct);
+            color: var(--lumo-error-contrast-color);
+        }
+        .error-block {
+            padding: var(--lumo-space-m);
+            border-radius: var(--lumo-border-radius-s);
+            border: 1px solid var(--lumo-error-color);
+        }
+        .error-block > p {
+            font-size: var(--lumo-font-size-m);
+        }
+        vaadin-button {
+            cursor: pointer;
+        }
+        #hs-icon-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1em;
+        }
+        #hs-icon-wrapper > img {
+            vertical-align: middle;
+        }
+        #button-layout {
+            display: flex;
+            justify-content: space-between;
+        }
+        #button-layout > a {
+            font-size: var(--lumo-font-size-s);
+        }
     </style>
 </custom-style>
