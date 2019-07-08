@@ -7,6 +7,7 @@ import uk.ltd.scimitar.heartspark.account.entity.Account;
 import uk.ltd.scimitar.heartspark.account.entity.Credential;
 import uk.ltd.scimitar.heartspark.account.entity.Role;
 import uk.ltd.scimitar.heartspark.account.repository.AccountRepository;
+import uk.ltd.scimitar.heartspark.profile.entity.Profile;
 import uk.ltd.scimitar.heartspark.ui.domain.Registration;
 
 import javax.transaction.Transactional;
@@ -46,6 +47,11 @@ public class AccountService implements Serializable {
                         .emailAddress(registration.getEmailAddress())
                         .password(registration.getPassword())
                         .build())
+                .firstName(registration.getGivenName())
+                .postalCode(registration.getPostalCode())
+                .country(registration.getCountry())
+                .acceptedTermsAndConditions(registration.getTermsAndConditions())
+                .profile(Profile.builder().build())
                 .build());
     }
 
