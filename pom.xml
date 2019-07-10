@@ -37,6 +37,7 @@
         <mockito-core.version>2.27.0</mockito-core.version>
         <lombok.version>1.18.8</lombok.version>
         <pebble-spring-boot-2-starter.version>3.0.10</pebble-spring-boot-2-starter.version>
+        <hamcrest.version>2.1</hamcrest.version>
 
         <!-- Plugin versions -->
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
@@ -140,6 +141,12 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+                <version>${hamcrest.version}</version>
                 <scope>test</scope>
             </dependency>
 

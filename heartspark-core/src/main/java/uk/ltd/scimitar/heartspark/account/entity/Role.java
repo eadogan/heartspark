@@ -1,10 +1,8 @@
 package uk.ltd.scimitar.heartspark.account.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -18,6 +16,7 @@ import javax.persistence.Table;
 public class Role {
 
     @Id
+    @Column(name = "name", length = 15)
     private String name;
 
 }

@@ -15,21 +15,24 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.Setter;
+import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import uk.ltd.scimitar.heartspark.account.entity.Account;
+import uk.ltd.scimitar.heartspark.account.entity.Credential;
 import uk.ltd.scimitar.heartspark.account.service.AccountService;
+import uk.ltd.scimitar.heartspark.profile.entity.Gender;
+import uk.ltd.scimitar.heartspark.profile.entity.MatchedGender;
+import uk.ltd.scimitar.heartspark.profile.entity.Profile;
 import uk.ltd.scimitar.heartspark.ui.component.template.WebsiteTemplate;
-import uk.ltd.scimitar.heartspark.ui.domain.Gender;
-import uk.ltd.scimitar.heartspark.ui.domain.MatchedGender;
-import uk.ltd.scimitar.heartspark.ui.domain.Registration;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Locale;
 
 import static java.util.regex.Pattern.matches;
 
@@ -66,10 +69,12 @@ public class RegistrationView extends Div {
 
         add(welcomeTextLayout);
 
-        final Registration registration = new Registration();
-        registration.setCountry(Locale.UK);
+        final Account account = Account.builder()
+                .credential(Credential.builder().build())
+                .profile(Profile.builder().build())
+                .build();
 
-        final Binder<Registration> registrationBinder = new Binder<>();
+        final Binder<Account> accountBinder = new Binder<>();
 
         final FormLayout registrationLayout = new FormLayout();
         registrationLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 2));
@@ -80,8 +85,9 @@ public class RegistrationView extends Div {
         givenName.setRequiredIndicatorVisible(true);
         givenName.setPlaceholder("First name");
         givenName.getElement().setAttribute("colspan", "2");
-        registrationBinder.forField(givenName).asRequired("This is a required field")
-                .bind(Registration::getGivenName, Registration::setGivenName);
+        accountBinder.forField(givenName)
+                .asRequired("This is a required field")
+                .bind(Account::getFirstName, Account::setFirstName);
 
         registrationLayout.add(givenName);
 
@@ -97,8 +103,10 @@ public class RegistrationView extends Div {
         emailAddress.setRequiredIndicatorVisible(true);
         emailAddress.setPrefixComponent(VaadinIcon.MAILBOX.create());
         emailAddress.getElement().setAttribute("colspan", "2");
-        registrationBinder.forField(emailAddress).asRequired("This is a required field")
-                .bind(Registration::getEmailAddress, Registration::setEmailAddress);
+        accountBinder.forField(emailAddress)
+                .asRequired("This is a required field")
+                .bind((ValueProvider<Account, String>) acc -> acc.getCredential().getEmailAddress(),
+                        (Setter<Account, String>) (acc, email) -> acc.getCredential().setEmailAddress(email));
 
         registrationLayout.add(emailAddress);
 
@@ -112,8 +120,10 @@ public class RegistrationView extends Div {
         gender.setWidth(DEFAULT_COLUMN_WIDTH);
         gender.setPlaceholder("Gender");
         gender.setItems(Gender.MALE, Gender.FEMALE);
-        registrationBinder.forField(gender).asRequired("This is a required field")
-                .bind(Registration::getGender, Registration::setGender);
+        accountBinder.forField(gender)
+                .asRequired("This is a required field")
+                .bind((ValueProvider<Account, Gender>) acc -> acc.getProfile().getGender(),
+                        (Setter<Account, Gender>) (acc, g) -> acc.getProfile().setGender(g));
 
         registrationLayout.add(gender);
 
@@ -123,8 +133,10 @@ public class RegistrationView extends Div {
         lookingFor.setPlaceholder("Looking for");
         lookingFor.setItems(MatchedGender.FEMALE, MatchedGender.MALE, MatchedGender.EITHER);
         lookingFor.setItemLabelGenerator(MatchedGender::plural);
-        registrationBinder.forField(lookingFor).asRequired("This is a required field")
-                .bind(Registration::getMatchedGender, Registration::setMatchedGender);
+        accountBinder.forField(lookingFor)
+                .asRequired("This is a required field")
+                .bind((ValueProvider<Account, MatchedGender>) acc -> acc.getProfile().getMatchedGender(),
+                        (Setter<Account, MatchedGender>) (acc, g) -> acc.getProfile().setMatchedGender(g));
 
         registrationLayout.add(lookingFor);
 
@@ -132,8 +144,10 @@ public class RegistrationView extends Div {
         dateOfBirth.setMax(LocalDate.now().minus(18L, ChronoUnit.YEARS));
         dateOfBirth.setMin(LocalDate.now().minus(100L, ChronoUnit.YEARS));
         dateOfBirth.getElement().setAttribute("colspan", "2");
-        registrationBinder.forField(dateOfBirth).asRequired("This is a required field")
-                .bind(Registration::getDateOfBirth, Registration::setDateOfBirth);
+        accountBinder.forField(dateOfBirth)
+                .asRequired("This is a required field")
+                .bind((ValueProvider<Account, LocalDate>) acc -> acc.getProfile().getDateOfBirth(),
+                        (Setter<Account, LocalDate>) (acc, dob) -> acc.getProfile().setDateOfBirth(dob));
 
         registrationLayout.add(dateOfBirth);
 
@@ -144,9 +158,9 @@ public class RegistrationView extends Div {
         final TextField postalCode = new TextField();
         postalCode.setPlaceholder("Postal code");
         postalCode.getElement().setAttribute("colspan", "2");
-        registrationBinder.forField(postalCode)
+        accountBinder.forField(postalCode)
                 .withValidator(pc -> matches(UK_POSTCODE_REGEX, pc), "Invalid postal code format.")
-                .bind(Registration::getPostalCode, Registration::setPostalCode);
+                .bind(Account::getPostalCode, Account::setPostalCode);
 
         registrationLayout.add(postalCode);
 
@@ -157,16 +171,16 @@ public class RegistrationView extends Div {
         final Checkbox termsAndConditions = new Checkbox("By registering I confirm I am 18 year of age or older and agree with the Terms and Conditions");
         termsAndConditions.setRequiredIndicatorVisible(false);
         termsAndConditions.getElement().setAttribute("colspan", "2");
-        registrationBinder.forField(termsAndConditions)
+        accountBinder.forField(termsAndConditions)
                 .asRequired("This is a required field")
-                .bind(Registration::getTermsAndConditions, Registration::setTermsAndConditions);
+                .bind(Account::getAcceptedTermsAndConditions, Account::setAcceptedTermsAndConditions);
 
         registrationLayout.add(termsAndConditions);
 
         final Button registerButton = new Button("REGISTER");
         registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
         registerButton.getElement().setAttribute("colspan", "2");
-        registerButton.addClickListener(e -> onRegisterClick(registrationBinder, registration));
+        registerButton.addClickListener(e -> onRegisterClick(accountBinder, account));
 
         final Button signInButton = new Button("Already registered? Sign In");
         signInButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE, ButtonVariant.LUMO_LARGE);
@@ -176,15 +190,15 @@ public class RegistrationView extends Div {
 
         add(welcomeTextLayout, registrationLayout);
 
-        registrationBinder.setBean(registration);
+        accountBinder.setBean(account);
     }
 
-    private void onRegisterClick(final Binder<Registration> registrationBinder,
-                                 final Registration bean) {
-        boolean valid = registrationBinder.writeBeanIfValid(bean);
+    private void onRegisterClick(final Binder<Account> accountBinder,
+                                 final Account account) {
+        boolean valid = accountBinder.writeBeanIfValid(account);
         if (valid) {
-            accountService.create(bean)
-                    .ifPresent(account -> UI.getCurrent().navigate(RegistrationNextStepsView.class));
+            accountService.create(account)
+                    .ifPresent(acc -> UI.getCurrent().navigate(RegistrationNextStepsView.class));
         }
     }
 

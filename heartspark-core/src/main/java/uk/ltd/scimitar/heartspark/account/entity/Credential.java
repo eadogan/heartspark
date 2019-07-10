@@ -18,6 +18,7 @@ public class Credential {
     @Id
     @Column(name = "email_address")
     private String emailAddress;
+    @Column(name = "password", length = 60)
     private String password;
     @OneToOne(mappedBy = "credential")
     private Account account;

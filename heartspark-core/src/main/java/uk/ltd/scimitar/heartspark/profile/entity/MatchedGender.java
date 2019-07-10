@@ -1,15 +1,15 @@
-package uk.ltd.scimitar.heartspark.ui.domain;
+package uk.ltd.scimitar.heartspark.profile.entity;
 
 import java.io.Serializable;
 
-public enum Gender implements Serializable {
+public enum MatchedGender implements Serializable {
 
-    MALE("Man", "Men"), FEMALE("Woman", "Women");
+    MALE("Man", "Men"), FEMALE("Woman", "Women"), EITHER("Man or Woman", "Men or Women");
 
     private String noun;
     private String plural;
 
-    Gender(final String noun, final String plural) {
+    MatchedGender(final String noun, final String plural) {
         this.noun = noun;
         this.plural = plural;
     }

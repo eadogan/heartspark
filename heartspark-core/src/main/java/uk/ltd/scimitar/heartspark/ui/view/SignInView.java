@@ -17,17 +17,19 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import uk.ltd.scimitar.heartspark.account.entity.Credential;
 import uk.ltd.scimitar.heartspark.email.domain.EmailTemplate;
 import uk.ltd.scimitar.heartspark.email.domain.ForgotPasswordEmailParams;
 import uk.ltd.scimitar.heartspark.email.service.EmailSenderService;
 import uk.ltd.scimitar.heartspark.ui.component.template.WebsiteTemplate;
-import uk.ltd.scimitar.heartspark.ui.domain.SignIn;
 import uk.ltd.scimitar.heartspark.ui.security.service.SecurityService;
 
 import java.io.IOException;
 
 @SpringComponent
-//@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @PageTitle("HeartSpark.singles")
 @Route(value = "login", layout = WebsiteTemplate.class)
 @HtmlImport("styles/view-login-styles.html")
@@ -48,8 +50,8 @@ public class SignInView extends Div {
 
         final HorizontalLayout rootLayout = new HorizontalLayout();
 
-        final Binder<SignIn> signInBinder = new Binder<>();
-        final SignIn signInBean = new SignIn();
+        final Binder<Credential> signInBinder = new Binder<>();
+        final Credential credentialBean = new Credential();
 
         final Div welcomeTextLayout = new Div();
         welcomeTextLayout.setId("welcome");
@@ -126,18 +128,18 @@ public class SignInView extends Div {
 
         final Button signInButton = new Button("SIGN IN");
         signInButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
-        signInButton.addClickListener(e -> signIn(signInBinder, signInBean));
+        signInButton.addClickListener(e -> signIn(signInBinder, credentialBean));
 
         formLayout.add(buttonLayout, signInButton);
 
         // Register the form binder
         signInBinder.forField(emailAddress)
                 .asRequired("Email address is a required field.")
-                .bind(SignIn::getEmailAddress, SignIn::setEmailAddress);
+                .bind(Credential::getEmailAddress, Credential::setEmailAddress);
         signInBinder.forField(passwordField)
                 .asRequired("Password is a required field.")
-                .bind(SignIn::getPassword, SignIn::setPassword);
-        signInBinder.setBean(signInBean);
+                .bind(Credential::getPassword, Credential::setPassword);
+        signInBinder.setBean(credentialBean);
 
         rootLayout.add(welcomeTextLayout, formLayout);
 
@@ -145,12 +147,12 @@ public class SignInView extends Div {
     }
 
     private void signIn(
-            final Binder<SignIn> signInBinder,
-            final SignIn signInBean) {
-        boolean valid = signInBinder.writeBeanIfValid(signInBean);
+            final Binder<Credential> binder,
+            final Credential credential) {
+        boolean valid = binder.writeBeanIfValid(credential);
         if (valid) {
-            boolean isAuthenticated = securityService.authenticate(signInBean.getEmailAddress(),
-                    signInBean.getPassword());
+            boolean isAuthenticated = securityService.authenticate(credential.getEmailAddress(),
+                    credential.getPassword());
             if (isAuthenticated) {
                 UI.getCurrent().navigate(ProfilesView.class);
             }
