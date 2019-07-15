@@ -31,3 +31,6 @@ spring:
                     starttls:
                         enable: true
                         required: true
+
+elasticsearch:
+    host: localhost

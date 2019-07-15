@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Builder
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "credential")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Credential {
+public class Credential implements Serializable {
 
     @Id
     @Column(name = "email_address")

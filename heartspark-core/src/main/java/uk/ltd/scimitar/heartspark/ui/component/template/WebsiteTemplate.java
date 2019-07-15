@@ -13,7 +13,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringComponent
-//@UIScope
+@UIScope
 @HtmlImport("frontend://themes/heartspark-theme.html")
 @HtmlImport("styles/app-website-styles.html")
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")

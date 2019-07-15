@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import uk.ltd.scimitar.heartspark.account.entity.Account;
 import uk.ltd.scimitar.heartspark.account.entity.Role;
 import uk.ltd.scimitar.heartspark.account.repository.AccountRepository;
-import uk.ltd.scimitar.heartspark.account.service.AccountService;
 
 import java.util.Set;
 import java.util.function.Function;
@@ -43,7 +42,7 @@ public class UserDetailsServiceBean implements UserDetailsService {
     );
 
     private Set<GrantedAuthority> getAuthorities(final Set<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName()))
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleType().name()))
                 .collect(Collectors.toSet());
     }
 

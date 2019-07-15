@@ -58,20 +58,20 @@ public class SignInView extends Div {
         welcomeTextLayout.setWidthFull();
 
         final Paragraph title = new Paragraph("Welcome back!");
-        title.getElement().getStyle().set("font-size", "var(--lumo-font-size-xl)");
+        title.setClassName("text-large");
 
         final Paragraph subtitle = new Paragraph("Sign in to your account");
         subtitle.setClassName("text-small");
 
-        final Div bgImageWrapper = new Div();
-        bgImageWrapper.setSizeUndefined();
-
-        final Image bgImage = new Image();
-        bgImage.setSizeUndefined();
-        bgImage.setSrc("image/bglogo.png");
-        bgImage.setMaxWidth("400px");
-
-        bgImageWrapper.add(bgImage);
+//        final Div bgImageWrapper = new Div();
+//        bgImageWrapper.setSizeUndefined();
+//
+//        final Image bgImage = new Image();
+//        bgImage.setSizeUndefined();
+//        bgImage.setSrc("image/bglogo.png");
+//        bgImage.setMaxWidth("400px");
+//
+//        bgImageWrapper.add(bgImage);
 
         error = new Div();
         error.addClassNames("error-block", "error-50pct");
@@ -79,7 +79,7 @@ public class SignInView extends Div {
         error.add(new Paragraph("Your email address and password do not match any of our accounts. If you have forgotten your password, click on the Forgotten Password link below."));
         error.setVisible(false);
 
-        welcomeTextLayout.add(title, subtitle, bgImageWrapper, error);
+        welcomeTextLayout.add(title, subtitle, error);
 
         final FormLayout formLayout = new FormLayout();
         formLayout.setWidthFull();

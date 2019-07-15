@@ -45,6 +45,9 @@ public class Account extends Auditable {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "credit_id", referencedColumnName = "id")
     private Credit credit;
+    @Column(name = "preferred_unit")
+    @Enumerated(EnumType.STRING)
+    private Unit preferredUnit;
 
     @Builder
     public Account(long id,
@@ -56,6 +59,7 @@ public class Account extends Auditable {
                    Locale country,
                    Profile profile,
                    Credit credit,
+                   Unit preferredUnit,
                    Date createdAt,
                    Date updatedAt) {
         super(createdAt, updatedAt);
@@ -68,6 +72,7 @@ public class Account extends Auditable {
         this.country = country;
         this.profile = profile;
         this.credit = credit;
+        this.preferredUnit = preferredUnit;
     }
 
 }

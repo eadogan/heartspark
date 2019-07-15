@@ -2,10 +2,8 @@ package uk.ltd.scimitar.heartspark.account.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Builder
@@ -13,10 +11,11 @@ import javax.persistence.Table;
 @Table(name = "role")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @Column(name = "name", length = 15)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
 
 }

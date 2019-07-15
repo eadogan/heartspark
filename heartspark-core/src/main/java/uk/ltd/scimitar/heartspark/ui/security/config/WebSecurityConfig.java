@@ -102,7 +102,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
 
                 // (production mode) static resources //
-                "/frontend-es5/**", "/frontend-es6/**"
+                "/frontend-es5/**", "/frontend-es6/**",
+
+                // Other pre auth screens
+                "/reset-password",
+                "/registration"
         };
     }
 

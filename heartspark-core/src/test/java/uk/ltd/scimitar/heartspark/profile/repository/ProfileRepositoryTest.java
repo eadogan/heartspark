@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.ltd.scimitar.heartspark.profile.entity.Gender;
-import uk.ltd.scimitar.heartspark.profile.entity.MatchedGender;
-import uk.ltd.scimitar.heartspark.profile.entity.Profile;
+import uk.ltd.scimitar.heartspark.profile.entity.*;
 
 import java.time.LocalDate;
 
@@ -33,6 +31,24 @@ class ProfileRepositoryTest {
         assertEquals(Gender.MALE, profile.getGender());
         assertEquals(MatchedGender.FEMALE, profile.getMatchedGender());
         assertEquals(LocalDate.of(1940, 11, 27), profile.getDateOfBirth());
+        assertEquals("Bruce", profile.getProfileName());
+        assertEquals("Welcome", profile.getProfileMessage());
+        assertEquals("Tag line", profile.getTagLine());
+        assertEquals(BodyType.MUSCULAR, profile.getBodyType());
+        assertEquals(EyeColour.BROWN, profile.getEyeColour());
+        assertEquals(HairColour.BROWN, profile.getHairColour());
+        assertEquals(Integer.valueOf(62), profile.getWeight());
+        assertEquals(Integer.valueOf(175), profile.getHeight());
+        assertEquals(Ethnicity.ASIAN, profile.getEthnicity());
+        assertEquals(Religion.BUDDHIST, profile.getReligion());
+        assertEquals(Education.UNIVERSITY, profile.getEducation());
+        assertEquals(Salary.OVER_50K, profile.getSalary());
+        assertEquals(TriStateType.FALSE, profile.getSmoker());
+        assertEquals(TriStateType.TRUE, profile.getDrivingLicence());
+        assertEquals(TriStateType.TRUE, profile.getAlcoholDrinker());
+        assertEquals(TriStateType.TRUE, profile.getChildren());
+        assertEquals(TriStateType.FALSE, profile.getYoungChildren());
+        assertEquals(TriStateType.TRUE, profile.getEmployed());
     }
 
 }

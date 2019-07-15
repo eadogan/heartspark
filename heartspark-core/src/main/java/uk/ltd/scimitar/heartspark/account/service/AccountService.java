@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import uk.ltd.scimitar.heartspark.account.entity.Account;
 import uk.ltd.scimitar.heartspark.account.entity.Role;
+import uk.ltd.scimitar.heartspark.account.entity.RoleType;
 import uk.ltd.scimitar.heartspark.account.repository.AccountRepository;
 
 import javax.transaction.Transactional;
@@ -34,7 +35,7 @@ public class AccountService implements Serializable {
 
     @Transactional
     public Optional<Account> create(final Account account) {
-        account.setRoles(Set.of(Role.builder().name("USER").build()));
+        account.setRoles(Set.of(Role.builder().roleType(RoleType.USER).build()));
         account.setCountry(Locale.UK);
         account.getCredential().setPassword(bCryptPasswordEncoder.encode(UUID.randomUUID().toString()));
         return Optional.of(accountRepository.save(account));

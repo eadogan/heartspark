@@ -8,10 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import uk.ltd.scimitar.heartspark.account.entity.Account;
-import uk.ltd.scimitar.heartspark.account.entity.Credential;
-import uk.ltd.scimitar.heartspark.account.entity.Credit;
-import uk.ltd.scimitar.heartspark.account.entity.Role;
+import uk.ltd.scimitar.heartspark.account.entity.*;
 import uk.ltd.scimitar.heartspark.account.repository.AccountRepository;
 import uk.ltd.scimitar.heartspark.profile.entity.Profile;
 
@@ -54,14 +51,14 @@ class AccountServiceTest {
         assertEquals("chuck.norris@karate.com", account.get().getCredential().getEmailAddress());
         assertEquals("password", account.get().getCredential().getPassword());
         assertTrue(account.get().getRoles().stream()
-                .anyMatch(role -> role.getName().equals("USER")));
+                .anyMatch(role -> role.getRoleType().equals(RoleType.USER)));
     }
 
     @Test
     @DisplayName("Creates a new account from Registration object")
     void shouldCreateAccount() {
         final Account account = Account.builder()
-                .roles(Set.of(Role.builder().name("USER").build()))
+                .roles(Set.of(Role.builder().roleType(RoleType.USER).build()))
                 .credential(Credential.builder()
                         .emailAddress("bruce.lee@jeetkune.do")
                         .password("lindalee")
@@ -69,7 +66,7 @@ class AccountServiceTest {
                 .firstName("Bruce")
                 .acceptedTermsAndConditions(true)
                 .postalCode("98101")
-                .credit(Credit.builder().build())
+                .credit(Credit.builder().tokens(5000).build())
                 .profile(Profile.builder()
                         .createdAt(Date.from(Instant.now()))
                         .updatedAt(Date.from(Instant.now()))
@@ -86,13 +83,14 @@ class AccountServiceTest {
         final ArgumentCaptor<Account> argCaptor = ArgumentCaptor.forClass(Account.class);
         verify(mockAccountRepository).save(argCaptor.capture());
 
-        assertEquals(argCaptor.getValue().getCredential().getEmailAddress(), "bruce.lee@jeetkune.do");
-        assertEquals(argCaptor.getValue().getCredential().getPassword(), "encoded_password");
-        assertTrue(argCaptor.getValue().getRoles().contains(Role.builder().name("USER").build()));
-        assertEquals(argCaptor.getValue().getAcceptedTermsAndConditions(), true);
-        assertEquals(argCaptor.getValue().getCountry(), Locale.UK);
-        assertEquals(argCaptor.getValue().getFirstName(), "Bruce");
-        assertEquals(argCaptor.getValue().getPostalCode(), "98101");
+        assertEquals("bruce.lee@jeetkune.do", argCaptor.getValue().getCredential().getEmailAddress());
+        assertEquals("encoded_password", argCaptor.getValue().getCredential().getPassword());
+        assertTrue(argCaptor.getValue().getRoles().contains(Role.builder().roleType(RoleType.USER).build()));
+        assertEquals(true, argCaptor.getValue().getAcceptedTermsAndConditions());
+        assertEquals(Locale.UK, argCaptor.getValue().getCountry());
+        assertEquals("Bruce", argCaptor.getValue().getFirstName());
+        assertEquals("98101", argCaptor.getValue().getPostalCode(), "98101");
+        assertEquals(Integer.valueOf(5000), argCaptor.getValue().getCredit().getTokens());
     }
 
     private Account validAccount() {
@@ -103,7 +101,7 @@ class AccountServiceTest {
                         .password("password")
                         .build())
                 .roles(Set.of(Role.builder()
-                        .name("USER")
+                        .roleType(RoleType.USER)
                         .build()))
                 .build();
     }

@@ -3,6 +3,7 @@ services:
   db:
     image: mysql:5.7
     restart: always
+    container_name: heartspark_db
     environment:
       MYSQL_DATABASE: 'heartspark'
       MYSQL_USER: 'user'
@@ -14,5 +15,22 @@ services:
       - '3306'
     volumes:
       - heartspark-db:/var/lib/mysql
+
+  search:
+    image: elasticsearch:7.2.0
+    container_name: heartspark_search
+    environment:
+      - cluster.initial_master_nodes=heartspark_search
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    volumes:
+      - heartspark-data:/usr/share/elasticsearch/data
+
 volumes:
   heartspark-db:
+  heartspark-data:

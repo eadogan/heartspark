@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: heartspark-search
+  name: heartspark-search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: heartspark-search
+  template:
+    metadata:
+      labels:
+        name: heartspark-search
+        app: heartspark-search
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: heartspark-search
+          image: elasticsearch:7.2.0
+          imagePullPolicy: Always
+          securityContext:
+            runAsUser: 1000
+          ports:
+            - containerPort: 9200
+              protocol: TCP
+          env:
+            - name: cluster.initial_master_nodes
+              value: 'heartspark_search'
+          volumeMounts:
+            - name: heartspark-search-data
+              mountPath: /usr/share/elasticsearch/data
+      volumes:
+        - name: heartspark-search-data
+          emptyDir: {}

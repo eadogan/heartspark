@@ -5,6 +5,7 @@ import uk.ltd.scimitar.heartspark.account.entity.Account;
 import uk.ltd.scimitar.heartspark.common.db.Auditable;
 import uk.ltd.scimitar.heartspark.profile.repository.GenderConverter;
 import uk.ltd.scimitar.heartspark.profile.repository.MatchedGenderConverter;
+import uk.ltd.scimitar.heartspark.profile.repository.TriStateTypeConverter;
 import uk.ltd.scimitar.heartspark.tag.entity.Tag;
 
 import javax.persistence.*;
@@ -35,6 +36,55 @@ public class Profile extends Auditable {
     private MatchedGender matchedGender;
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
+    @Column(name = "profile_name", length = 40)
+    private String profileName;
+    @Column(name = "profile_message")
+    private String profileMessage;
+    @Column(name = "tag_line")
+    private String tagLine;
+    @Column(name = "body_type")
+    @Enumerated(EnumType.STRING)
+    private BodyType bodyType;
+    @Column(name = "eye_colour")
+    @Enumerated(EnumType.STRING)
+    private EyeColour eyeColour;
+    @Column(name = "hair_colour")
+    @Enumerated(EnumType.STRING)
+    private HairColour hairColour;
+    @Column(name = "weight")
+    private Integer weight;
+    @Column(name = "height")
+    private Integer height;
+    @Column(name = "ethnicity")
+    @Enumerated(EnumType.STRING)
+    private Ethnicity ethnicity;
+    @Column(name = "religion")
+    @Enumerated(EnumType.STRING)
+    private Religion religion;
+    @Column(name = "education")
+    @Enumerated(EnumType.STRING)
+    private Education education;
+    @Column(name = "salary")
+    @Enumerated(EnumType.STRING)
+    private Salary salary;
+    @Column(name = "smoker")
+    @Convert(converter = TriStateTypeConverter.class)
+    private TriStateType smoker;
+    @Column(name = "driving_licence")
+    @Convert(converter = TriStateTypeConverter.class)
+    private TriStateType drivingLicence;
+    @Column(name = "alcohol_drinker")
+    @Convert(converter = TriStateTypeConverter.class)
+    private TriStateType alcoholDrinker;
+    @Column(name = "children")
+    @Convert(converter = TriStateTypeConverter.class)
+    private TriStateType children;
+    @Column(name = "young_children")
+    @Convert(converter = TriStateTypeConverter.class)
+    private TriStateType youngChildren;
+    @Column(name = "employed")
+    @Convert(converter = TriStateTypeConverter.class)
+    private TriStateType employed;
 
     @Builder
     public Profile(long id,
@@ -43,6 +93,24 @@ public class Profile extends Auditable {
                    Gender gender,
                    MatchedGender matchedGender,
                    LocalDate dateOfBirth,
+                   String profileName,
+                   String profileMessage,
+                   String tagLine,
+                   BodyType bodyType,
+                   EyeColour eyeColour,
+                   HairColour hairColour,
+                   Integer weight,
+                   Integer height,
+                   Ethnicity ethnicity,
+                   Religion religion,
+                   Education education,
+                   Salary salary,
+                   TriStateType smoker,
+                   TriStateType drivingLicence,
+                   TriStateType alcoholDrinker,
+                   TriStateType children,
+                   TriStateType youngChildren,
+                   TriStateType employed,
                    Date createdAt,
                    Date updatedAt) {
         super(createdAt, updatedAt);
@@ -52,6 +120,27 @@ public class Profile extends Auditable {
         this.gender = gender;
         this.matchedGender = matchedGender;
         this.dateOfBirth = dateOfBirth;
+        this.profileName = profileName;
+        this.profileMessage = profileMessage;
+        this.tagLine = tagLine;
+        this.bodyType = bodyType;
+        this.eyeColour = eyeColour;
+        this.hairColour = hairColour;
+        this.weight = weight;
+        this.height = height;
+        this.ethnicity = ethnicity;
+        this.religion = religion;
+        this.education = education;
+        this.salary = salary;
+        this.smoker = smoker;
+        this.drivingLicence = drivingLicence;
+        this.alcoholDrinker = alcoholDrinker;
+        this.children = children;
+        this.youngChildren = youngChildren;
+        this.employed = employed;
     }
+
+//    private String profileImageSrc;
+//    private Collection<ProfileMedia> profileMedia;
 
 }

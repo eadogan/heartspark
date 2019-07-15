@@ -8,13 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.ltd.scimitar.heartspark.account.entity.Account;
-import uk.ltd.scimitar.heartspark.account.entity.Credential;
-import uk.ltd.scimitar.heartspark.account.entity.Credit;
-import uk.ltd.scimitar.heartspark.account.entity.Role;
-import uk.ltd.scimitar.heartspark.profile.entity.Gender;
-import uk.ltd.scimitar.heartspark.profile.entity.MatchedGender;
-import uk.ltd.scimitar.heartspark.profile.entity.Profile;
+import uk.ltd.scimitar.heartspark.account.entity.*;
+import uk.ltd.scimitar.heartspark.profile.entity.*;
 
 import java.sql.Date;
 import java.time.Instant;
@@ -43,12 +38,13 @@ class AccountRepositoryTest {
                 -> Assertions.fail("Expected account but none found."));
         assertEquals("bruce.lee@jeetkune.do", account.getCredential().getEmailAddress());
         assertTrue(account.getRoles().stream()
-                .anyMatch(role -> role.getName().equals("USER")));
+                .anyMatch(role -> role.getRoleType().equals(RoleType.USER)));
         assertEquals("Bruce", account.getFirstName());
         assertEquals(true, account.getAcceptedTermsAndConditions());
         assertEquals("98101", account.getPostalCode());
         assertEquals(Locale.US, account.getCountry());
         assertEquals(1L, account.getProfile().getId());
+        assertEquals(Unit.METRIC, account.getPreferredUnit());
     }
 
     @Sql("create_accounts.sql")
@@ -68,7 +64,7 @@ class AccountRepositoryTest {
                 .updatedAt(Date.from(Instant.now()))
                 .build());
         final Account account = Account.builder()
-                .roles(Set.of(Role.builder().name("USER").build()))
+                .roles(Set.of(Role.builder().roleType(RoleType.USER).build()))
                 .credential(Credential.builder()
                         .emailAddress("bruce.lee@jeetkune.do")
                         .password("lindalee")
@@ -79,12 +75,21 @@ class AccountRepositoryTest {
                 .postalCode("98101")
                 .credit(credit)
                 .profile(Profile.builder()
+                        .profileName("Bruce")
+                        .bodyType(BodyType.MUSCULAR)
+                        .eyeColour(EyeColour.BROWN)
+                        .education(Education.OPEN_UNIVERSITY)
+                        .hairColour(HairColour.BROWN)
+                        .ethnicity(Ethnicity.ASIAN)
+                        .religion(Religion.BUDDHIST)
+                        .salary(Salary.UNSPECIFIED)
                         .gender(Gender.MALE)
                         .matchedGender(MatchedGender.FEMALE)
                         .dateOfBirth(LocalDate.of(1940, 11, 27))
                         .createdAt(Date.from(Instant.now()))
                         .updatedAt(Date.from(Instant.now()))
                         .build())
+                .preferredUnit(Unit.IMPERIAL)
                 .createdAt(Date.from(Instant.now()))
                 .updatedAt(Date.from(Instant.now()))
                 .build();

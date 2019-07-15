@@ -28,6 +28,7 @@
         <spring-boot-dependencies.version>2.1.5.RELEASE</spring-boot-dependencies.version>
         <vaadin.version>13.0.5</vaadin.version>
         <spring-cloud-starter-kubernetes.version>1.0.1.RELEASE</spring-cloud-starter-kubernetes.version>
+        <elasticsearch.version>7.2.0</elasticsearch.version>
 
         <!-- Lib versions -->
         <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
@@ -38,6 +39,7 @@
         <lombok.version>1.18.8</lombok.version>
         <pebble-spring-boot-2-starter.version>3.0.10</pebble-spring-boot-2-starter.version>
         <hamcrest.version>2.1</hamcrest.version>
+        <jackson.version>2.9.9.1</jackson.version>
 
         <!-- Plugin versions -->
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
@@ -115,12 +117,24 @@
                 <version>${pebble-spring-boot-2-starter.version}</version>
             </dependency>
 
+            <!-- Search -->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
             <!-- Utils -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
 
